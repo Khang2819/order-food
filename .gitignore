@@ -1,0 +1,56 @@
+# ==========================================
+# Root .gitignore for Order Food (Monorepo)
+# ==========================================
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# ==========================================
+# Backend (Node.js / Express)
+# ==========================================
+backend/node_modules/
+backend/.env
+backend/.env.*.local
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/pnpm-debug.log*
+backend/dist/
+backend/build/
+
+# ==========================================
+# Mobile (Flutter / Dart)
+# ==========================================
+mobile/.dart_tool/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.pub-cache/
+mobile/.pub/
+mobile/build/
+mobile/app.*.symbols
+mobile/app.*.map.json
+
+# Android
+mobile/android/app/debug/
+mobile/android/app/profile/
+mobile/android/app/release/
+mobile/android/key.properties
+mobile/android/*.jks
+mobile/android/*.keystore
+mobile/android/.gradle/
+mobile/android/local.properties
+
+# iOS
+mobile/ios/Flutter/.last_build_id
+mobile/ios/Pods/
+mobile/ios/.symlinks/
+mobile/ios/Flutter/Generated.xcconfig
+mobile/ios/Flutter/flutter_export_environment.sh
