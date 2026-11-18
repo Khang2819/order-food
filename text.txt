@@ -1,0 +1,50 @@
+backend/
+├── src/
+│   ├── config/             # Kết nối Database, biến môi trường .env
+│   ├── controllers/        # auth.controller.js, order.controller.js, food.controller.js
+│   ├── services/           # auth.service.js, order.service.js, food.service.js
+│   ├── models/             # User.js, Food.js, Order.js, Category.js
+│   ├── routes/             # auth.routes.js, order.routes.js, food.routes.js
+│   ├── middlewares/        # auth.middleware.js (verify JWT), errorHandler.js
+│   ├── sockets/            # Socket.io xử lý cập nhật trạng thái đơn hàng realtime
+│   └── utils/              # Helper functions, format tiền tệ, response chuẩn
+├── index.js                # Khởi động server Express & Socket.io
+└── package.json
+
+
+app
+mobile/lib/
+│
+├── core/                               # 🌐 DÙNG CHUNG TOÀN ỨNG DỤNG
+│   ├── constants/                      # app_colors.dart, api_endpoints.dart, app_strings.dart
+│   ├── network/                        # api_client.dart (cấu hình Dio, tự động gắn Token)
+│   ├── storage/                        # token_storage.dart (lưu Token vào SharedPreferences)
+│   └── theme/                          # app_theme.dart (font chữ, màu chủ đạo cam #EA580C)
+│
+├── features/                           # 🍱 CHIA THEO TỪNG CHỨC NĂNG NGHIỆP VỤ
+│   │
+│   ├── auth/                           # 🔐 Xác thực (Đăng nhập, Đăng ký)
+│   │   ├── data/                       # auth_repository.dart (gọi API /api/auth/login, /register)
+│   │   ├── models/                     # user_model.dart (chuyển đổi JSON <-> Dart Object)
+│   │   ├── cubit/                      # auth_cubit.dart, auth_state.dart (quản lý trạng thái đăng nhập)
+│   │   └── presentation/               # login_screen.dart, register_screen.dart
+│   │
+│   ├── food/                           # 🍔 Món ăn & Trang chủ
+│   │   ├── data/                       # food_repository.dart (gọi /api/foods)
+│   │   ├── models/                     # food_model.dart, category_model.dart
+│   │   ├── cubit/                      # food_cubit.dart, food_state.dart
+│   │   └── presentation/               # home_screen.dart, food_detail_screen.dart, widgets/
+│   │
+│   ├── cart/                           # 🛒 Giỏ hàng
+│   │   ├── models/                     # cart_item_model.dart
+│   │   ├── cubit/                      # cart_cubit.dart (tăng giảm số lượng, tính tổng tiền)
+│   │   └── presentation/               # cart_screen.dart, widgets/cart_item_card.dart
+│   │
+│   └── order/                          # 📦 Đặt hàng & Theo dõi đơn
+│       ├── data/                       # order_repository.dart (gọi /api/orders)
+│       ├── models/                     # order_model.dart
+│       ├── cubit/                      # order_cubit.dart
+│       └── presentation/               # checkout_screen.dart, order_tracking_screen.dart
+│
+└── main.dart                           # 🚀 Khởi động ứng dụng & Cung cấp các Bloc/Cubit toàn cục
+
