@@ -2,11 +2,8 @@ import 'package:dio/dio.dart';
 import '../storage/token_storage.dart';
 
 class ApiClient {
-  // LƯU Ý KHI CHẠY THỰC TẾ:
-  // - Máy ảo Android (Android Emulator): Dùng http://10.0.2.2:3000/api
-  // - Thiết bị thật (Cắm dây USB): Dùng địa chỉ IP Wifi máy tính (ví dụ: http://192.168.1.5:3000/api)
-  // - Web / iOS Simulator: Dùng http://localhost:3000/api
-  static const String baseUrl = 'http://10.0.2.2:3000/api';
+  // Link Server Backend chạy online trên Render
+  static const String baseUrl = 'https://order-food-backend-6ln7.onrender.com/api';
 
   late final Dio dio;
 
@@ -14,8 +11,8 @@ class ApiClient {
     dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
