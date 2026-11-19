@@ -49,8 +49,8 @@ class AuthRepository {
       final token = response.data['token'] as String;
       final user = UserModel.fromJson(response.data['user']);
 
-      // Lưu token vào thiết bị
-      await TokenStorage.saveToken(token);
+      // Lưu token và tên vào thiết bị
+      await TokenStorage.saveToken(token, userName: user.name);
 
       return (user: user, token: token);
     } on DioException catch (e) {

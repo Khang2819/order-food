@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'core/storage/token_storage.dart';
 import 'features/auth/cubit/auth_cubit.dart';
 import 'features/auth/presentation/login_screen.dart';
+import 'features/food/presentation/home_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
     ),
   );
-  runApp(const MyApp());
+
+  // 1. Kiểm tra xem người dùng đã từng đăng nhập trước đó chưa (Token còn trong máy)
+  final token = await TokenStorage.getToken();
+  final bool isLoggedIn = token != null && token.isNotEmpty;
+
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
+
+  const MyApp({super.key, this.isLoggedIn = false});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +47,8 @@ class MyApp extends StatelessWidget {
             primary: const Color(0xFFEA580C),
           ),
         ),
-        home: const LoginScreen(),
+        // 2. Nếu đã đăng nhập rồi -> Vào thẳng HomeScreen; chưa thì hiện LoginScreen
+        home: isLoggedIn ? const HomeScreen() : const LoginScreen(),
       ),
     );
   }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/storage/token_storage.dart';
+import '../../auth/presentation/login_screen.dart';
 import '../models/category_model.dart';
 import '../models/food_model.dart';
+import 'food_detail_screen.dart';
 import 'widgets/category_selector.dart';
 import 'widgets/food_item_card.dart';
 import 'widgets/home_header.dart';
@@ -33,14 +36,54 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<FoodModel> _foods = const [
     FoodModel(
       id: '1',
-      name: 'Cơm Tấm Sườn Bì Chả Đặc Biệt',
+      name: 'Cơm Tấm Sườn Bì Chả\nĐặc Biệt',
       restaurantName: 'Cơm Tấm Ba Ghiền',
       price: 55000,
-      imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400',
+      imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600',
+      description:
+          'Hạt cơm tấm thơm dẻo, sườn nướng mật ong thảo mộc xém cạnh đậm vị, bì thính rang tay giòn ngậy, chả trứng chưng truyền thống và mỡ hành béo bùi.',
+      tag: 'Món Bán Chạy Nhất Sài Gòn',
       rating: 4.9,
-      deliveryTime: '15–20 ph',
+      ratingCount: '1.2k',
+      deliveryTime: '15–20 phút',
+      calories: '680 kcal',
+      secretTip: 'Sườn ướp nước mắm nhĩ Phú Quốc nướng than hoa thơm lừng.',
       soldCount: '1.2k+ đã mua',
       categoryId: 'rice',
+      sizes: [
+        FoodOption(
+          id: 'size1',
+          name: 'Tiêu chuẩn (Vừa)',
+          description: '1 miếng sườn, bì, chả chưng tiêu chuẩn',
+          price: 0,
+        ),
+        FoodOption(
+          id: 'size2',
+          name: 'Phần Lớn (Nhiều cơm & sườn)',
+          description: 'Gấp đôi sườn nướng & cơm thơm giòn',
+          price: 15000,
+        ),
+      ],
+      toppings: [
+        FoodOption(
+          id: 'top1',
+          name: 'Trứng ốp la lòng đào',
+          description: 'Trứng gà ta chiên rìa giòn tan',
+          price: 10000,
+        ),
+        FoodOption(
+          id: 'top2',
+          name: 'Chả cua hoàng kim',
+          description: 'Thịt cua biển tươi quyện nấm mèo',
+          price: 15000,
+        ),
+        FoodOption(
+          id: 'top3',
+          name: 'Canh rong biển thịt bằm',
+          description: 'Nước dùng hầm xương ngọt thanh mát',
+          price: 12000,
+        ),
+      ],
     ),
     FoodModel(
       id: '2',
@@ -81,7 +124,49 @@ class _HomeScreenState extends State<HomeScreen> {
                 address: '123 Nguyễn Huệ, Q.1',
                 cartCount: 3,
                 onNotificationTap: () {},
-                onProfileTap: () {},
+                onProfileTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      title: const Text(
+                        'Tài khoản',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      content: const Text('Bạn có chắc chắn muốn đăng xuất không?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx),
+                          child: const Text('Hủy', style: TextStyle(color: AppColors.textSub)),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            Navigator.pop(ctx);
+                            await TokenStorage.removeToken();
+                            if (context.mounted) {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const LoginScreen(),
+                                ),
+                                (route) => false,
+                              );
+                            }
+                          },
+                          child: const Text(
+                            'Đăng xuất',
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
                 onAddressTap: () {},
                 onCartTap: () {},
               ),
@@ -184,7 +269,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                   onTap: () {
-                    // Xem chi tiết món ăn
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FoodDetailScreen(food: food),
+                      ),
+                    );
                   },
                 ),
               ),
