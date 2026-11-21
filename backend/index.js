@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const authRoutes = require('./src/routes/authRoutes');
+const foodRoutes = require('./src/routes/foodRoutes');
+const categoryRoutes = require('./src/routes/categoryRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,6 +20,8 @@ mongoose
   .catch((e) => console.error('Lỗi kết nối với MongoDB:', e.message));
 
 app.use('/api/auth', authRoutes);
+app.use('/api/foods', foodRoutes);
+app.use('/api/categories', categoryRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server Order Food đang hoạt động tốt!' });
